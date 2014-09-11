@@ -3,8 +3,8 @@ package Twfahp;
 import java.text.DecimalFormat;
 import java.util.List;
 
-import org.gatech.cs6310.project1.HeatingPlateModel;
-import org.gatech.cs6310.project1.MatrixObserver;
+import edu.gatech.cs6310.project1.HeatingPlateModel;
+import edu.gatech.cs6310.project1.MatrixObserver;
 
 public class HeatingPlateWrappedFloat extends HeatingPlateModel {
 	// Initializing the heating plate to an empty array to prevent errors

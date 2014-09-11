@@ -3,8 +3,8 @@ package Tpfahp;
 import java.text.DecimalFormat;
 import java.util.List;
 
-import org.gatech.cs6310.project1.HeatingPlateModel;
-import org.gatech.cs6310.project1.MatrixObserver;
+import edu.gatech.cs6310.project1.HeatingPlateModel;
+import edu.gatech.cs6310.project1.MatrixObserver;
 
 public class HeatingPlatePrimitiveFloatingPoint extends HeatingPlateModel {
 	// Initializing the heating plate to an empty array to prevent errors
@@ -52,9 +52,13 @@ public class HeatingPlatePrimitiveFloatingPoint extends HeatingPlateModel {
 		initialize(heatingPlate, topTemperature, bottomTemperature,
 				leftTemperature, rightTemperature);
 
-		// Loop until exit criteria are met, updating each newPlate cell from
-		// the
+		// Loop until exit criteria are met, updating each newPlate cell from the
 		// average temperatures of the corresponding neighbors in oldPlate
+		//
+		// Here as with the Float example we are really just casting a float into a double - 
+		// I do believe the calculation of the average of all four is done with a double
+		// precision so...  not much different other than the memory utilization.  May need
+		// to make a change here! -ers 9/11/2014
 		while (!isModelingComplete( )) {
 			for (int i = 1; i <= latticeSize; i++) {
 				for (int j = 1; j <= latticeSize; j++) {

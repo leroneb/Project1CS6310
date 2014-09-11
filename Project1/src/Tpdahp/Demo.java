@@ -1,7 +1,7 @@
 package Tpdahp;
 
-import org.gatech.cs6310.project1.HeatingPlateApp;
-import org.gatech.cs6310.utilities.OptionException;
+import edu.gatech.cs6310.project1.HeatingPlateApp;
+import edu.gatech.cs6310.utilities.OptionException;
 
 // The simple algorithm described above where all computations are performed in double precision using a two-dimensional array of doubles to represent the plate (Tpdahp)
 

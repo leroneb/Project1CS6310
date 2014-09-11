@@ -1,8 +1,7 @@
-package org.gatech.cs6310.project1;
+package edu.gatech.cs6310.project1;
 
-import org.gatech.cs6310.utilities.OptionException;
-import org.gatech.cs6310.utilities.OptionsParser;
-
+import edu.gatech.cs6310.utilities.OptionException;
+import edu.gatech.cs6310.utilities.OptionsParser;
 import Tpfahp.Demo;
 
 public abstract class HeatingPlateApp {

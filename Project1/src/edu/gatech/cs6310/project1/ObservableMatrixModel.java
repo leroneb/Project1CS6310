@@ -1,4 +1,4 @@
-package org.gatech.cs6310.project1;
+package edu.gatech.cs6310.project1;
 
 /**
  * Really for purposes of attaching the GUI later -- but there could be other reasons

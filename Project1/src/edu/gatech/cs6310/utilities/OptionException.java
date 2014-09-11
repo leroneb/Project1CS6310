@@ -1,4 +1,4 @@
-package org.gatech.cs6310.utilities;
+package edu.gatech.cs6310.utilities;
 
 public class OptionException extends Exception {
 

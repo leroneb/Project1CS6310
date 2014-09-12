@@ -60,12 +60,16 @@ public class HeatingPlatePrimitiveDouble extends HeatingPlateModel {
 				for (int j = 1; j <= latticeSize; j++) {
 					heatingPlate[i][j] = (oldPlate[i + 1][j] + oldPlate[i - 1][j]
 							+ oldPlate[i][j + 1] + oldPlate[i][j - 1]) / 4.0;
+					
+					System.out.println( this );
 				}
 			}
 
 			swap(oldPlate, heatingPlate);
 			notifyObservers();
 		}		
+		
+		System.out.println( this );
 	}
 	
 	/**

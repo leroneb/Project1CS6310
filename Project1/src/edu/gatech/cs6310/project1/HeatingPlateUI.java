@@ -170,7 +170,6 @@ public class HeatingPlateUI extends JPanel implements MatrixObserver {
 		BufferedImage bi = new BufferedImage(getWidth(), getHeight(),
 				BufferedImage.TYPE_INT_ARGB);
 		Graphics anotherGraphics = bi.createGraphics();
-
 		for (int i = 0; i < matrixRowsColumns; i++) {
 			for (int j = 0; j < matrixRowsColumns; j++) {
 				// Instead of calling random, here is where you
@@ -287,6 +286,7 @@ public class HeatingPlateUI extends JPanel implements MatrixObserver {
 						HeatingPlateModel currentModel = HeatingPlateFactory.getInstance( ).getHeatingPlate(programType);
 								
 						currentModel.register(HeatingPlateUI.this);
+						
 						setupUI(Integer.parseInt(matrixSize.getText()));
 						currentModel.runModel(Integer.parseInt(topTemperature.getSelectedItem().toString()), 
 								Integer.parseInt(bottomTemperature.getSelectedItem().toString()), 
@@ -315,8 +315,10 @@ public class HeatingPlateUI extends JPanel implements MatrixObserver {
 	 * @param matrixSize
 	 */
 	private void setupUI( int matrixSize ) {
-		matrixRowsColumns=matrixSize;
-		cellSize=GRID_SIZE / matrixSize;
+		// Matrix here is defined as the inner matrix of the heating plate :: doesn't include
+		// the edges.  This is a bit hackish
+		matrixRowsColumns=matrixSize+2;
+		cellSize=GRID_SIZE / (matrixSize+2);
 	}
 	
 	private MaskFormatter createFormatter(String s) {

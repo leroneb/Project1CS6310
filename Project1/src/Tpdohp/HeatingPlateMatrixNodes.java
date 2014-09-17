@@ -8,103 +8,128 @@ import edu.gatech.cs6310.project1.HeatingPlateModel;
 import edu.gatech.cs6310.project1.MatrixObserver;
 
 /**
- * Not complete - 9/11/2014.  I decided to rewrite as I was unhappy with
- * the original model produced.  Stubbed out and just need to populate
- * the stubs
+ * Not complete - 9/11/2014. I decided to rewrite as I was unhappy with the
+ * original model produced. Stubbed out and just need to populate the stubs
  * 
  * @author eserzo
- *
+ * 
  */
 public class HeatingPlateMatrixNodes extends HeatingPlateModel {
-	private HeatingPlate heatingPlate = new HeatingPlate( );
-	private HeatingPlate oldHeatingPlate = new HeatingPlate( );
+	private HeatingPlate heatingPlate = new HeatingPlate();
 
-	
 	// How many times we've recalculated the temperatures in our model
-	private int modelingCounter=0;
-	
+	private int modelingCounter = 0;
+
 	/**
 	 * One could argue for the initialization of the plate to be here
 	 */
-	public HeatingPlateMatrixNodes( ) { }
-	
+	public HeatingPlateMatrixNodes() {
+	}
+
 	public void runModel(int topTemperature, int bottomTemperature,
-			int leftTemperature, int rightTemperature, int latticeSize ) {
+			int leftTemperature, int rightTemperature, int latticeSize) {
 		System.out
-				.println("Running the model using primitives : double calculation");
+				.println("Running the model using LatticePoint Objects : double calculation");
+
+		HeatingPlate oldHeatingPlate = new HeatingPlate(topTemperature,
+				bottomTemperature, leftTemperature, rightTemperature,
+				latticeSize);
+		heatingPlate = new HeatingPlate(topTemperature,
+				bottomTemperature, leftTemperature, rightTemperature,
+				latticeSize);
 		
-		HeatingPlate oldHeatingPlate = new HeatingPlate( topTemperature, bottomTemperature,
-				leftTemperature, rightTemperature, latticeSize );
-		HeatingPlate heatingPlate = new HeatingPlate( topTemperature, bottomTemperature,
-				leftTemperature, rightTemperature, latticeSize );
-		
-		LatticePoint headPoint = heatingPlate.getHeadLatticePoint();
-		
+		LatticePoint currentPoint = heatingPlate.getHeadLatticePoint();
+
 		// Loop until exit criteria are met, updating each newPlate cell from
 		// the
 		// average temperatures of the corresponding neighbors in oldPlate
-		while (!isModelingComplete( )) {
-			//.getNextLatticePoint( )
-			
-			for (int i = 1; i <= latticeSize; i++) {
-				for (int j = 1; j <= latticeSize; j++) {
-				//	heatingPlate[i][j] = (oldPlate[i + 1][j] + oldPlate[i - 1][j]
-					//		+ oldPlate[i][j + 1] + oldPlate[i][j - 1]) / 4.0;
+		while (!isModelingComplete(oldHeatingPlate, heatingPlate)) {
+			while (currentPoint != null) {
+				// Implication that all fixed points on a heating plate are on
+				// the outside of the plate
+				// and that all inside points will have a n/s/w/e neighbor
+				if (!currentPoint.isFixedTemperature()) {
+					currentPoint
+							.setTemperature((currentPoint.getEastNeighbor()
+									.getTemperature()
+									+ currentPoint.getWestNeighbor()
+											.getTemperature()
+									+ currentPoint.getNorthNeighbor()
+											.getTemperature() + currentPoint
+									.getSouthNeighbor().getTemperature()) / 4);
+
+					currentPoint = heatingPlate.getNextPoint(currentPoint);
+				} else {
+					currentPoint = heatingPlate.getNextPoint(currentPoint);
 				}
 			}
-
-			oldHeatingPlate.swap( heatingPlate );
+			
+			System.out.println( heatingPlate );
+			
+			oldHeatingPlate.swap(heatingPlate);
 			notifyObservers();
-		}		
+		}
 	}
-	
+
 	/**
-	 * We will based whether or not the algorithm for diffusion has finished on the convergence of an inner
-	 * point (center, or in the case where the center is has multiple points -- a grid that is even ::
-	 * 4x4 grid -- one of these points
+	 * We will based whether or not the algorithm for diffusion has finished on
+	 * the convergence of an inner point (center, or in the case where the
+	 * center is has multiple points -- a grid that is even :: 4x4 grid -- one
+	 * of these points
 	 * 
-	 *  x x x x
-	 *  x x x x
-	 *  x x x x
-	 *  x x x x
-	 *  
-	 *  The convergence will be considered complete when the change is < .01% of the maximum initial temperature of
-	 *  100. value. 
-	 *  
-	 *  ie >> 33.325 (run 1), 33.320 (run 2) where the difference is < .01% of the maximum initial temperature
-	 *    -- problem has been solved, done will be considered true
-	 *    
-	 *    
-	 *    Thoughts.. this is a potential 
-	 *  
+	 * x x x x x x x x x x x x x x x x
+	 * 
+	 * The convergence will be considered complete when the change is < .01% of
+	 * the maximum initial temperature of 100. value.
+	 * 
+	 * ie >> 33.325 (run 1), 33.320 (run 2) where the difference is < .01% of
+	 * the maximum initial temperature -- problem has been solved, done will be
+	 * considered true
+	 * 
+	 * 
+	 * Thoughts.. this is a potential
+	 * 
 	 * @param counter
 	 * @return
 	 */
-	public boolean isModelingComplete( ) {
+	public boolean isModelingComplete(HeatingPlate oldPlate,
+			HeatingPlate currentPlate) {
 		modelingCounter++;
-
-		//
-		heatingPlate.isConverged(oldHeatingPlate);
 		
+		// Also note the comparison here to the size of the plate. The inner
+		// temperature will remain 0
+		// until the model has progressed (plate.length) steps. Granted, could
+		// also check and see if
+		// the temperatures were all initialized 0 -- in which case you save
+		// (plate.length) steps but
+		// realistically this is a virtual nothing in computing time
+		if (((currentPlate.getTemperatures()[currentPlate.getCenterPoint().x][currentPlate
+				.getCenterPoint().y] - oldPlate.getTemperatures()[oldPlate
+				.getCenterPoint().x][oldPlate.getCenterPoint().y]) / MAX_TEMPERATURE) < MAX_DIFF_RATIO
+				&& modelingCounter > oldPlate.getLatticeSize()) {
+			return true;
+		}
+
 		return false;
 	}
-	
-	
+
 	/**
-	 * Textual representation of a HeatingPlate -- in here primarily for debugging purposes, but
-	 * it's always nice to have a textual representation of an object when needed
+	 * Textual representation of a HeatingPlate -- in here primarily for
+	 * debugging purposes, but it's always nice to have a textual representation
+	 * of an object when needed
 	 */
-	public String toString( ) {
+	public String toString() {
 		return heatingPlate.toString();
 	}
 
 	@Override
-	public void notifyObservers( ) {
-		// May want to consider a flag for checking whether or not to send out updates to the observers - slight
+	public void notifyObservers() {
+		// May want to consider a flag for checking whether or not to send out
+		// updates to the observers - slight
 		// reduction in ops
 		List<MatrixObserver> observers = getObservers();
 		for (MatrixObserver currentObserver : observers) {
-			currentObserver.receiveUpdate( heatingPlate.getTemperatures() );
+			currentObserver.receiveUpdate(heatingPlate.getTemperatures());
 		}
 	}
 }

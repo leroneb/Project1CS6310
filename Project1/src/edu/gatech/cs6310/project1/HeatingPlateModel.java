@@ -33,14 +33,6 @@ public abstract class HeatingPlateModel implements ObservableMatrixModel {
 			int leftTemperature, int rightTemperature, int latticeSize);
 
 	/**
-	 * While performing the function runModel, whether or not the model can be
-	 * considered complete. If in a threaded application (ie > a UI where we
-	 * have a separate thread for display), could also be called to determine
-	 * whether or not the model has completed
-	 */
-	public abstract boolean isModelingComplete();
-
-	/**
 	 * String representation of the model at any given point in time - for
 	 * debugging purposes
 	 * 

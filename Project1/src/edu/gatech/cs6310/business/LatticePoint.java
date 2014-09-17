@@ -25,6 +25,37 @@ public class LatticePoint {
 	private LatticePoint eastNeighbor;
 	private LatticePoint westNeighbor;
 
+	/**
+	 * Whether or not the temperature can change for this LatticePoint
+	 */
+	private boolean fixedTemperature;
+	private String location;
+	
+	public String getLocation() {
+		return location;
+	}
+
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+
+	public LatticePoint( double temperature, boolean fixedTemperature, String location ) {
+		this.temperature=temperature;
+		this.fixedTemperature=fixedTemperature;
+		this.location=location;
+	}
+	
+
+	public boolean isFixedTemperature() {
+		return fixedTemperature;
+	}
+
+	public void setFixedTemperature(boolean fixedTemperature) {
+		this.fixedTemperature = fixedTemperature;
+	}
+
 	public LatticePoint getNorthNeighbor() {
 		return northNeighbor;
 	}
@@ -63,5 +94,9 @@ public class LatticePoint {
 
 	public void setTemperature(double temperature) {
 		this.temperature = temperature;
+	}
+	
+	public String toString( ) {
+		return "Temp:" + fixedTemperature + "Loc:" + location;
 	}
 }

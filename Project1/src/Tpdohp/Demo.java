@@ -1,13 +1,31 @@
 package Tpdohp;
 
-public class Demo {
+import Tpdohp.Demo;
+import Tpdahp.HeatingPlatePrimitiveDouble;
+import edu.gatech.cs6310.project1.HeatingPlateApp;
+import edu.gatech.cs6310.utilities.OptionException;
 
-	/**
-	 * @param args
-	 */
+public class Demo extends HeatingPlateApp {
+
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		Demo currentDemo = new Demo( args );
+	}
+	
+	//	The following pseudo code illustrates one way the computation might be performed on a square grid of dimension d.
+	public Demo( String args[] ) {
+		try {
+			parseOptions( args );
+			HeatingPlateMatrixNodes currentModel = new HeatingPlateMatrixNodes( );
+			
+			currentModel.runModel( getTopTemperature(), getBottomTemperature(), getLeftTemperature(), getRightTemperature(),
+					getLatticeSize());
+			
+			
+			System.out.println( currentModel );
+		} catch( OptionException oe0 ) {
+			System.err.println( oe0.getMessage());
+		}
+		
 	}
 
 }

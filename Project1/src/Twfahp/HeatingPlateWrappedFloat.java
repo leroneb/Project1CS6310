@@ -31,7 +31,7 @@ public class HeatingPlateWrappedFloat extends HeatingPlateModel {
 	public void runModel(int topTemperature, int bottomTemperature,
 			int leftTemperature, int rightTemperature, int latticeSize ) {
 		System.out
-				.println("Running the model using wrapped Float (Object)");
+				.println("Running the model using wrapped Float array");
 		
 		if( latticeSize % 2 == 1 ) {
 			convergencePointX=(latticeSize+1)/2;

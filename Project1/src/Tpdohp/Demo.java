@@ -1,11 +1,14 @@
 package Tpdohp;
 
-import Tpdohp.Demo;
-import Tpdahp.HeatingPlatePrimitiveDouble;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import edu.gatech.cs6310.project1.HeatingPlateApp;
+import edu.gatech.cs6310.project1.HeatingPlateException;
 import edu.gatech.cs6310.utilities.OptionException;
 
 public class Demo extends HeatingPlateApp {
+	private final static Logger LOGGER = Logger.getLogger(Demo.class.getName()); 
 
 	public static void main(String[] args) {
 		Demo currentDemo = new Demo( args );
@@ -20,10 +23,11 @@ public class Demo extends HeatingPlateApp {
 			currentModel.runModel( getTopTemperature(), getBottomTemperature(), getLeftTemperature(), getRightTemperature(),
 					getLatticeSize());
 			
-			
-			System.out.println( currentModel );
+			System.out.println( currentModel.toString() );
 		} catch( OptionException oe0 ) {
-			System.err.println( oe0.getMessage());
+			LOGGER.log( Level.SEVERE, oe0.getMessage());
+		} catch( HeatingPlateException he0 ) {
+			LOGGER.log( Level.SEVERE, he0.getMessage());
 		}
 		
 	}

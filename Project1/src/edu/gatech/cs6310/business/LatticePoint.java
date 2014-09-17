@@ -1,5 +1,10 @@
 package edu.gatech.cs6310.business;
 
+import java.awt.Point;
+import java.util.logging.Logger;
+
+import Tpdahp.HeatingPlatePrimitiveDouble;
+
 /**
  * A type of node -- each node has a double representing a temperature.  Now we could
  * get more fancy with the design, but I'm more a fan of the KISS rule, keeping
@@ -18,6 +23,8 @@ package edu.gatech.cs6310.business;
  *
  */
 public class LatticePoint {
+	private final static Logger LOGGER = Logger.getLogger(LatticePoint.class.getName()); 
+
 	private double temperature;
 	
 	private LatticePoint northNeighbor;
@@ -29,19 +36,26 @@ public class LatticePoint {
 	 * Whether or not the temperature can change for this LatticePoint
 	 */
 	private boolean fixedTemperature;
-	private String location;
+	/**
+	 * Implies that a LatticePoint knows it's position... I'm not a huge fan 
+	 * of this as the HeatingPlate keeps the locations of the points and 
+	 * we have a bit of a circular reference here (potential for errors).
+	 * Given that the points are static right now this is not an issue, may
+	 * need to change
+	 */
+	private Point location;
 	
-	public String getLocation() {
+	public Point getLocation() {
 		return location;
 	}
 
 
-	public void setLocation(String location) {
+	public void setLocation(Point location) {
 		this.location = location;
 	}
 
 
-	public LatticePoint( double temperature, boolean fixedTemperature, String location ) {
+	public LatticePoint( double temperature, boolean fixedTemperature, Point location ) {
 		this.temperature=temperature;
 		this.fixedTemperature=fixedTemperature;
 		this.location=location;
@@ -99,4 +113,16 @@ public class LatticePoint {
 	public String toString( ) {
 		return "Temp:" + fixedTemperature + "Loc:" + location;
 	}
+
+	@Override
+	public boolean equals(Object incoming) {
+		if( ((LatticePoint)incoming).getLocation().x == this.getLocation().x &&
+				((LatticePoint)incoming).getLocation().y == this.getLocation().y) {
+			return true;
+		}
+		
+		return false;
+	}
+
+
 }

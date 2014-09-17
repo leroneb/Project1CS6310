@@ -1,6 +1,9 @@
 package edu.gatech.cs6310.utilities;
 
 import java.util.HashMap;
+import java.util.logging.Logger;
+
+import Tpdahp.HeatingPlatePrimitiveDouble;
 
 /**
  * Takes in an array of options, generally passed via the command line and
@@ -10,6 +13,8 @@ import java.util.HashMap;
  * once
  */
 public class OptionsParser {
+	private final static Logger LOGGER = Logger.getLogger(OptionsParser.class.getName()); 
+
 	public HashMap<String, String> allOptions = new HashMap<String, String>();
 
 	public OptionsParser(String[] args) {

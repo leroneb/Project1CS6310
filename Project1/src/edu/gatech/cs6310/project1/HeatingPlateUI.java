@@ -8,6 +8,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -20,6 +21,7 @@ import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.text.MaskFormatter;
 
+import Tpdahp.HeatingPlatePrimitiveDouble;
 import edu.gatech.cs6310.factories.HeatingPlateFactory;
 
 /**
@@ -33,6 +35,8 @@ import edu.gatech.cs6310.factories.HeatingPlateFactory;
  * @author Spencer Rugaber, January, 2009
  */
 public class HeatingPlateUI extends JPanel implements MatrixObserver {
+	private final static Logger LOGGER = Logger.getLogger(HeatingPlateUI.class.getName()); 
+
 	double[][] currentModelData = new double[1][1];
 
 	/**
@@ -288,11 +292,15 @@ public class HeatingPlateUI extends JPanel implements MatrixObserver {
 						currentModel.register(HeatingPlateUI.this);
 						
 						setupUI(Integer.parseInt(matrixSize.getText()));
-						currentModel.runModel(Integer.parseInt(topTemperature.getSelectedItem().toString()), 
+						try {
+							currentModel.runModel(Integer.parseInt(topTemperature.getSelectedItem().toString()), 
 								Integer.parseInt(bottomTemperature.getSelectedItem().toString()), 
 								Integer.parseInt(leftTemperature.getSelectedItem().toString()), 
 								Integer.parseInt(rightTemperature.getSelectedItem().toString()), 
 								Integer.parseInt(matrixSize.getText()));
+						} catch( HeatingPlateException he0) {
+							System.err.println( he0.getMessage() );
+						}
 					}
 				}.start();
 			}

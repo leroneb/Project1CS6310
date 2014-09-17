@@ -1,5 +1,8 @@
 package Tpfahp;
 
+import java.util.logging.Logger;
+
+import Tpdahp.HeatingPlatePrimitiveDouble;
 import edu.gatech.cs6310.project1.HeatingPlateApp;
 import edu.gatech.cs6310.utilities.OptionException;
 
@@ -11,6 +14,7 @@ import edu.gatech.cs6310.utilities.OptionException;
  *
  */
 public class Demo extends HeatingPlateApp {
+	private final static Logger LOGGER = Logger.getLogger(Demo.class.getName()); 
 
 	//The same algorithm using floating point computations on an array of floats (Tpfahp)
 	

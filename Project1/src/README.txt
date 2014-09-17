@@ -13,8 +13,8 @@ There are five applications which can be run, four can be run without a head
 		select from any of the previous demo programs and see a real-time
 		visual representation of the model.
 		
-1> To compile : (windows) compile.bat
-				(unix) compile.sh
+1> To compile : (windows or ubuntu vm) compile.bat
+
 
 2> To run : java <program name> <application options>
 

@@ -4,7 +4,6 @@ import java.text.DecimalFormat;
 import java.util.List;
 import java.util.logging.Logger;
 
-import Tpdahp.HeatingPlatePrimitiveDouble;
 import edu.gatech.cs6310.project1.HeatingPlateModel;
 import edu.gatech.cs6310.project1.MatrixObserver;
 

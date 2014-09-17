@@ -2,8 +2,6 @@ package edu.gatech.cs6310.project1;
 
 import java.util.logging.Logger;
 
-import Tpdahp.HeatingPlatePrimitiveDouble;
-
 public class HeatingPlateException extends Exception {
 	private final static Logger LOGGER = Logger.getLogger(HeatingPlateException.class.getName()); 
 

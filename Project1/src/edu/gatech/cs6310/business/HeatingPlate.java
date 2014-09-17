@@ -7,7 +7,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.logging.Logger;
 
-import Tpdahp.HeatingPlatePrimitiveDouble;
 import edu.gatech.cs6310.project1.HeatingPlateException;
 
 /**
@@ -53,25 +52,6 @@ public class HeatingPlate {
 	private int latticeSize;
 	
 	public HeatingPlate( ) { }
-	
-	public HeatingPlate( HeatingPlate copy ) {
-		latticeSize=copy.latticeSize;
-		centerPoint=copy.centerPoint;
-		allPoints=copy.allPoints;
-		
-		System.out.println( "copy -->" );
-		System.out.println( this );
-		
-		for( int xCounter=0; xCounter < latticeSize; xCounter++ ) {
-			for( int yCounter=0; yCounter < latticeSize; yCounter++ ) {
-				LatticePoint myPoint=allPoints.get( new Point( xCounter+1, yCounter+1 ));
-
-				// blech - but at some point you just have to get 'er done and move on
-				double[][] incomingTemps = copy.getTemperatures();
-//				myPoint.setTemperature(incomingTemps[xCounter][yCounter]);
-			}
-		}
-	}
 	
 	/**
 	 * As opposed to the other classes which were more functional in nature - there is no
@@ -222,10 +202,7 @@ public class HeatingPlate {
 	public LatticePoint getLatticePoint( Point current ) {
 		Collection<LatticePoint> pointKeys = allPoints.values();
 		
-		// Whether to return the next point in the collection
-		boolean nextPoint=false;
-		
-		Iterator myIt = pointKeys.iterator();
+		Iterator<LatticePoint> myIt = pointKeys.iterator();
 		while( myIt.hasNext()) {
 			LatticePoint checkPoint = (LatticePoint)myIt.next();
 			if( current.x == checkPoint.getLocation().x &&

@@ -3,7 +3,6 @@ package Twfahp;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import Tpdahp.HeatingPlatePrimitiveDouble;
 import edu.gatech.cs6310.project1.HeatingPlateApp;
 import edu.gatech.cs6310.utilities.OptionException;
 

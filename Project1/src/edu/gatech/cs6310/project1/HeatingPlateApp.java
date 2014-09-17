@@ -3,7 +3,6 @@ package edu.gatech.cs6310.project1;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import edu.gatech.cs6310.utilities.OptionException;

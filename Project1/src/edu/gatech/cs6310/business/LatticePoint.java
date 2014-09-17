@@ -3,8 +3,6 @@ package edu.gatech.cs6310.business;
 import java.awt.Point;
 import java.util.logging.Logger;
 
-import Tpdahp.HeatingPlatePrimitiveDouble;
-
 /**
  * A type of node -- each node has a double representing a temperature.  Now we could
  * get more fancy with the design, but I'm more a fan of the KISS rule, keeping

@@ -18,10 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.Timer;
-import javax.swing.text.MaskFormatter;
 
-import Tpdahp.HeatingPlatePrimitiveDouble;
 import edu.gatech.cs6310.factories.HeatingPlateFactory;
 
 /**
@@ -187,7 +184,6 @@ public class HeatingPlateUI extends JPanel implements MatrixObserver {
 		aGraphics.drawImage(bi, 0, 0, this);
 	}
 
-	private Timer timer = null;
 	private JFrame jf = new JFrame();
 	final static String[] options = new String[101];
 	static {
@@ -328,17 +324,6 @@ public class HeatingPlateUI extends JPanel implements MatrixObserver {
 		matrixRowsColumns=matrixSize+2;
 		cellSize=GRID_SIZE / (matrixSize+2);
 	}
-	
-	private MaskFormatter createFormatter(String s) {
-	    MaskFormatter formatter = null;
-	    try {
-	        formatter = new MaskFormatter(s);
-	    } catch (java.text.ParseException exc) {
-	        System.err.println("formatter is bad: " + exc.getMessage());
-	    }
-	    return formatter;
-	}
-
 
 	@Override
 	public void receiveUpdate(double[][] myData) {

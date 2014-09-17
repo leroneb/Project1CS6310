@@ -3,7 +3,6 @@ package Tpdohp;
 import java.util.List;
 import java.util.logging.Logger;
 
-import Tpdahp.HeatingPlatePrimitiveDouble;
 import edu.gatech.cs6310.business.HeatingPlate;
 import edu.gatech.cs6310.business.LatticePoint;
 import edu.gatech.cs6310.project1.HeatingPlateException;

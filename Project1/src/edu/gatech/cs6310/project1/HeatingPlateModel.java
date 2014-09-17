@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import Tpdahp.HeatingPlatePrimitiveDouble;
-
 public abstract class HeatingPlateModel implements ObservableMatrixModel {
 	private final static Logger LOGGER = Logger.getLogger(HeatingPlateModel.class.getName()); 
 

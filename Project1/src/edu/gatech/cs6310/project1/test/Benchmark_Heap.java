@@ -23,6 +23,7 @@ public class Benchmark_Heap extends AbstractBenchmark{
 	 * Set of Memory Tests for Matrix Nodes
 	 * 
 	 */
+	/*
 	@Test
 	public void matrixNodes_100x100_T100() {
 		System.out.print("*"+this.getClass().getSimpleName()+".matrixNodes_100x100_T100,");
@@ -43,10 +44,10 @@ public class Benchmark_Heap extends AbstractBenchmark{
 	public void matrixNodes_100x100_T1() {
 		System.out.print("*"+this.getClass().getSimpleName()+".matrixNodes_100x100_T1,");
 		disableOutput();
-		//Tpdohp.Demo demo = new Tpdohp.Demo(Constants.args100x100T1);
+		Tpdohp.Demo demo = new Tpdohp.Demo(Constants.args100x100T1);
 		enableOutput();
 	}
-	
+	*/
 	@Test
 	public void matrixNodes_10x10_T100() {
 		System.out.print("*"+this.getClass().getSimpleName()+".matrixNodes_10x10_T100,");

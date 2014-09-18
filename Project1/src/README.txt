@@ -1,4 +1,4 @@
-PROJECT 1 : Ian Kerman, Leron Bleasdale, Gouri Guin, Ed Serzo 
+PROJECT 1 : Ian Kerman, Lerone Bleasdille, Gouri Guin, Ed Serzo 
 
 Simulation of heat diffusion on a heated plate
 

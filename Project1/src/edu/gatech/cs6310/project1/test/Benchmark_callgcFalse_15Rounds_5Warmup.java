@@ -11,8 +11,8 @@ import org.junit.Test;
 import com.carrotsearch.junitbenchmarks.AbstractBenchmark;
 import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
 
-@BenchmarkOptions(callgc = true, benchmarkRounds = 15, warmupRounds = 5)
-public class Benchmark_callgcTrue_15Rounds_5Warmup extends AbstractBenchmark {
+@BenchmarkOptions(callgc = false, benchmarkRounds = 15, warmupRounds = 5)
+public class Benchmark_callgcFalse_15Rounds_5Warmup extends AbstractBenchmark {
 		
 	private PrintStream original = System.out;
 	

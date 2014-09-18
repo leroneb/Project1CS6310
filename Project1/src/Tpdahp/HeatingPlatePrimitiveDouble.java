@@ -7,6 +7,12 @@ import java.util.logging.Logger;
 import edu.gatech.cs6310.project1.HeatingPlateModel;
 import edu.gatech.cs6310.project1.MatrixObserver;
 
+/**
+ * Simple algorithm described above where all computations are performed in 
+ * double precision using a two-dimensional array of doubles to represent the plate 
+ * @author Team5
+ *
+ */
 public class HeatingPlatePrimitiveDouble extends HeatingPlateModel {
 	private final static Logger LOGGER = Logger.getLogger(HeatingPlatePrimitiveDouble.class.getName()); 
 	

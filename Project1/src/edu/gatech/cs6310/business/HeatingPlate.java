@@ -260,8 +260,8 @@ public class HeatingPlate {
 		formatter.setMaximumFractionDigits(2);
 		
 		StringBuffer myOutput = new StringBuffer( );
-		for( int x=1; x <= latticeSize; x++ ) {
-			for( int y=1; y <= latticeSize; y++ ) {
+		for( int x=2; x < latticeSize; x++ ) {
+			for( int y=2; y < latticeSize; y++ ) {
 				//myOutput.append( "[x,y:" + (x+1) + "," + (y+1) + "] - " + heatingPlate[x][y] + "\r\n" );
 				myOutput.append( formatter.format( allPoints.get( new Point( x, y )).getTemperature()) + "\t" );
 			}

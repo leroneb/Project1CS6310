@@ -8,6 +8,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -17,8 +18,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.Timer;
-import javax.swing.text.MaskFormatter;
 
 import edu.gatech.cs6310.factories.HeatingPlateFactory;
 
@@ -33,6 +32,8 @@ import edu.gatech.cs6310.factories.HeatingPlateFactory;
  * @author Spencer Rugaber, January, 2009
  */
 public class HeatingPlateUI extends JPanel implements MatrixObserver {
+	private final static Logger LOGGER = Logger.getLogger(HeatingPlateUI.class.getName()); 
+
 	double[][] currentModelData = new double[1][1];
 
 	/**
@@ -183,7 +184,6 @@ public class HeatingPlateUI extends JPanel implements MatrixObserver {
 		aGraphics.drawImage(bi, 0, 0, this);
 	}
 
-	private Timer timer = null;
 	private JFrame jf = new JFrame();
 	final static String[] options = new String[101];
 	static {
@@ -288,11 +288,15 @@ public class HeatingPlateUI extends JPanel implements MatrixObserver {
 						currentModel.register(HeatingPlateUI.this);
 						
 						setupUI(Integer.parseInt(matrixSize.getText()));
-						currentModel.runModel(Integer.parseInt(topTemperature.getSelectedItem().toString()), 
+						try {
+							currentModel.runModel(Integer.parseInt(topTemperature.getSelectedItem().toString()), 
 								Integer.parseInt(bottomTemperature.getSelectedItem().toString()), 
 								Integer.parseInt(leftTemperature.getSelectedItem().toString()), 
 								Integer.parseInt(rightTemperature.getSelectedItem().toString()), 
 								Integer.parseInt(matrixSize.getText()));
+						} catch( HeatingPlateException he0) {
+							System.err.println( he0.getMessage() );
+						}
 					}
 				}.start();
 			}
@@ -320,17 +324,6 @@ public class HeatingPlateUI extends JPanel implements MatrixObserver {
 		matrixRowsColumns=matrixSize+2;
 		cellSize=GRID_SIZE / (matrixSize+2);
 	}
-	
-	private MaskFormatter createFormatter(String s) {
-	    MaskFormatter formatter = null;
-	    try {
-	        formatter = new MaskFormatter(s);
-	    } catch (java.text.ParseException exc) {
-	        System.err.println("formatter is bad: " + exc.getMessage());
-	    }
-	    return formatter;
-	}
-
 
 	@Override
 	public void receiveUpdate(double[][] myData) {

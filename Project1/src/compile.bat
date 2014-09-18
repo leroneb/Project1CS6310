@@ -1,0 +1,1 @@
+javac Twfahp/*.java Tpfahp/*.java Tpdohp/*.java Tpdahp/*.java Gallhp/*.java edu/gatech/cs6310/business/*.java edu/gatech/cs6310/business/*.java edu/gatech/cs6310/factories/*.java  edu/gatech/cs6310/project1/*.java edu/gatech/cs6310/utilities/*.java

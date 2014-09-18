@@ -2,11 +2,14 @@ package Twfahp;
 
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.logging.Logger;
 
 import edu.gatech.cs6310.project1.HeatingPlateModel;
 import edu.gatech.cs6310.project1.MatrixObserver;
 
 public class HeatingPlateWrappedFloat extends HeatingPlateModel {
+	private final static Logger LOGGER = Logger.getLogger(HeatingPlateWrappedFloat.class.getName()); 
+
 	// Initializing the heating plate to an empty array to prevent errors
 	private Float[][] heatingPlate = new Float[0][0];
 	// The position on the plate, x and y that is either the center of the plate,
@@ -27,7 +30,7 @@ public class HeatingPlateWrappedFloat extends HeatingPlateModel {
 	public void runModel(int topTemperature, int bottomTemperature,
 			int leftTemperature, int rightTemperature, int latticeSize ) {
 		System.out
-				.println("Running the model using wrapped Float (Object)");
+				.println("Running the model using wrapped Float array");
 		
 		if( latticeSize % 2 == 1 ) {
 			convergencePointX=(latticeSize+1)/2;
@@ -66,6 +69,8 @@ public class HeatingPlateWrappedFloat extends HeatingPlateModel {
 			swap(oldPlate, heatingPlate);
 			notifyObservers();
 		}
+		
+		LOGGER.finest( "Model took " + modelingCounter + " steps to converge on a temperature" );
 	}
 	
 	/**
@@ -101,12 +106,8 @@ public class HeatingPlateWrappedFloat extends HeatingPlateModel {
 				MAX_TEMPERATURE) < MAX_DIFF_RATIO && modelingCounter > heatingPlate.length ) {
 			return true;
 		}
-		
-		//System.out.println( "modeling counter is " + modelingCounter );
 	
 		setPreviousTemperatureConvergencePoint(heatingPlate[convergencePointX][convergencePointY]);
-		
-		//System.out.println( this );
 		
 		return false;
 	}
@@ -159,8 +160,8 @@ public class HeatingPlateWrappedFloat extends HeatingPlateModel {
 		formatter.setMaximumFractionDigits(2);
 		
 		StringBuffer myOutput = new StringBuffer( );
-		for( int x=0; x < heatingPlate.length; x++ ) {
-			for( int y=0; y < heatingPlate[x].length; y++ ) {
+		for( int x=1; x < heatingPlate.length-1; x++ ) {
+			for( int y=1; y < heatingPlate[x].length-1; y++ ) {
 				//myOutput.append( "[x,y:" + (x+1) + "," + (y+1) + "] - " + heatingPlate[x][y] + "\r\n" );
 				myOutput.append( formatter.format(heatingPlate[x][y]) + "\t" );
 			}
@@ -168,9 +169,7 @@ public class HeatingPlateWrappedFloat extends HeatingPlateModel {
 			myOutput.append( "\r\n" );
 		}
 		
-		myOutput.append( "\r\n\r\nModel took " + modelingCounter + " steps to converge on a temperature" );
-		
-		return myOutput.toString();
+		return "\r\n" + myOutput.toString();
 	}
 
 	@Override

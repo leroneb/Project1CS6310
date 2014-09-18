@@ -1,9 +1,11 @@
 package Tpdohp;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import edu.gatech.cs6310.business.HeatingPlate;
 import edu.gatech.cs6310.business.LatticePoint;
+import edu.gatech.cs6310.project1.HeatingPlateException;
 import edu.gatech.cs6310.project1.HeatingPlateModel;
 import edu.gatech.cs6310.project1.MatrixObserver;
 
@@ -15,6 +17,8 @@ import edu.gatech.cs6310.project1.MatrixObserver;
  * 
  */
 public class HeatingPlateMatrixNodes extends HeatingPlateModel {
+	private final static Logger LOGGER = Logger.getLogger(HeatingPlateMatrixNodes.class.getName()); 
+
 	private HeatingPlate heatingPlate = new HeatingPlate();
 
 	// How many times we've recalculated the temperatures in our model
@@ -27,9 +31,8 @@ public class HeatingPlateMatrixNodes extends HeatingPlateModel {
 	}
 
 	public void runModel(int topTemperature, int bottomTemperature,
-			int leftTemperature, int rightTemperature, int latticeSize) {
-		System.out
-				.println("Running the model using LatticePoint Objects : double calculation");
+			int leftTemperature, int rightTemperature, int latticeSize) throws HeatingPlateException {
+		System.out.println("Running the model using LatticePoint Objects : double calculation");
 
 		HeatingPlate oldHeatingPlate = new HeatingPlate(topTemperature,
 				bottomTemperature, leftTemperature, rightTemperature,
@@ -38,37 +41,38 @@ public class HeatingPlateMatrixNodes extends HeatingPlateModel {
 				bottomTemperature, leftTemperature, rightTemperature,
 				latticeSize);
 		
-		LatticePoint currentPoint = heatingPlate.getHeadLatticePoint();
-
 		// Loop until exit criteria are met, updating each newPlate cell from
 		// the
 		// average temperatures of the corresponding neighbors in oldPlate
 		while (!isModelingComplete(oldHeatingPlate, heatingPlate)) {
-			while (currentPoint != null) {
+			HeatingPlate.swap(oldHeatingPlate, heatingPlate);
+
+			LatticePoint currentLatticePoint = heatingPlate.getHeadLatticePoint();
+
+			while (currentLatticePoint != null) {
 				// Implication that all fixed points on a heating plate are on
 				// the outside of the plate
 				// and that all inside points will have a n/s/w/e neighbor
-				if (!currentPoint.isFixedTemperature()) {
-					currentPoint
-							.setTemperature((currentPoint.getEastNeighbor()
+				if (!currentLatticePoint.isFixedTemperature()) {
+					heatingPlate.setTemperature( currentLatticePoint.getLocation(),
+							(currentLatticePoint.getEastNeighbor()
 									.getTemperature()
-									+ currentPoint.getWestNeighbor()
+									+ currentLatticePoint.getWestNeighbor()
 											.getTemperature()
-									+ currentPoint.getNorthNeighbor()
-											.getTemperature() + currentPoint
+									+ currentLatticePoint.getNorthNeighbor()
+											.getTemperature() + currentLatticePoint
 									.getSouthNeighbor().getTemperature()) / 4);
-
-					currentPoint = heatingPlate.getNextPoint(currentPoint);
+					currentLatticePoint = oldHeatingPlate.getNextPoint(currentLatticePoint);
 				} else {
-					currentPoint = heatingPlate.getNextPoint(currentPoint);
+					currentLatticePoint = oldHeatingPlate.getNextPoint(currentLatticePoint);
 				}
 			}
 			
-			System.out.println( heatingPlate );
-			
-			oldHeatingPlate.swap(heatingPlate);
 			notifyObservers();
 		}
+
+		LOGGER.finest( "Model took " + modelingCounter + " steps to converge on a temperature" );
+		
 	}
 
 	/**
@@ -119,7 +123,7 @@ public class HeatingPlateMatrixNodes extends HeatingPlateModel {
 	 * of an object when needed
 	 */
 	public String toString() {
-		return heatingPlate.toString();
+		return "\r\n" + heatingPlate.toString();
 	}
 
 	@Override

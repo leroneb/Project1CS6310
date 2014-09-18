@@ -2,8 +2,11 @@ package edu.gatech.cs6310.project1;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public abstract class HeatingPlateModel implements ObservableMatrixModel {
+	private final static Logger LOGGER = Logger.getLogger(HeatingPlateModel.class.getName()); 
+
 	public static final int MAX_TEMPERATURE = 100;
 
 	// The previous temperature at the convergence point. This will ensure we
@@ -30,7 +33,7 @@ public abstract class HeatingPlateModel implements ObservableMatrixModel {
 	 * 
 	 */
 	public abstract void runModel(int topTemperature, int bottomTemperature,
-			int leftTemperature, int rightTemperature, int latticeSize);
+			int leftTemperature, int rightTemperature, int latticeSize) throws HeatingPlateException;
 
 	/**
 	 * String representation of the model at any given point in time - for

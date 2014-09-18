@@ -2,11 +2,14 @@ package Tpfahp;
 
 import java.text.DecimalFormat;
 import java.util.List;
+import java.util.logging.Logger;
 
 import edu.gatech.cs6310.project1.HeatingPlateModel;
 import edu.gatech.cs6310.project1.MatrixObserver;
 
 public class HeatingPlatePrimitiveFloatingPoint extends HeatingPlateModel {
+	private final static Logger LOGGER = Logger.getLogger(HeatingPlatePrimitiveFloatingPoint.class.getName()); 
+
 	// Initializing the heating plate to an empty array to prevent errors
 	private float[][] heatingPlate = new float[0][0];
 	// The position on the plate, x and y that is either the center of the plate,
@@ -70,6 +73,8 @@ public class HeatingPlatePrimitiveFloatingPoint extends HeatingPlateModel {
 			swap(oldPlate, heatingPlate);
 			notifyObservers();
 		}
+		
+		LOGGER.finest( "Model took " + modelingCounter + " steps to converge on a temperature" );
 	}
 	
 	/**
@@ -163,18 +168,16 @@ public class HeatingPlatePrimitiveFloatingPoint extends HeatingPlateModel {
 		formatter.setMaximumFractionDigits(2);
 		
 		StringBuffer myOutput = new StringBuffer( );
-		for( int x=0; x < heatingPlate.length; x++ ) {
-			for( int y=0; y < heatingPlate[x].length; y++ ) {
+		for( int x=1; x < heatingPlate.length-1; x++ ) {
+			for( int y=1; y < heatingPlate[x].length-1; y++ ) {
 				//myOutput.append( "[x,y:" + (x+1) + "," + (y+1) + "] - " + heatingPlate[x][y] + "\r\n" );
 				myOutput.append( formatter.format(heatingPlate[x][y]) + "\t" );
 			}
 			
 			myOutput.append( "\r\n" );
 		}
-		
-		myOutput.append( "\r\n\r\nModel took " + modelingCounter + " steps to converge on a temperature" );
-		
-		return myOutput.toString();
+
+		return "\r\n" + myOutput.toString();
 	}
 
 	@Override

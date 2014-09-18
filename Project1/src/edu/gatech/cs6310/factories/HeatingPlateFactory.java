@@ -1,5 +1,7 @@
 package edu.gatech.cs6310.factories;
 
+import java.util.logging.Logger;
+
 import Tpdahp.HeatingPlatePrimitiveDouble;
 import Tpdohp.HeatingPlateMatrixNodes;
 import Tpfahp.HeatingPlatePrimitiveFloatingPoint;
@@ -14,6 +16,8 @@ import edu.gatech.cs6310.project1.HeatingPlateModel;
  *
  */
 public class HeatingPlateFactory {
+	private final static Logger LOGGER = Logger.getLogger(HeatingPlateFactory.class.getName()); 
+
 	private static HeatingPlateFactory me=null;
 	
 	public enum PROGRAM_TYPES {

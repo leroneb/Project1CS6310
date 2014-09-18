@@ -1,10 +1,16 @@
 package edu.gatech.cs6310.project1;
 
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import edu.gatech.cs6310.utilities.OptionException;
 import edu.gatech.cs6310.utilities.OptionsParser;
-import Tpfahp.Demo;
 
 public abstract class HeatingPlateApp {
+	private final static Logger LOGGER = Logger.getLogger(HeatingPlateApp.class.getName()); 
+
 	private int topTemperature;
 	private int bottomTemperature;
 	private int leftTemperature;
@@ -71,6 +77,31 @@ public abstract class HeatingPlateApp {
 			throw new OptionException(
 					"An argument (-d #) containing the integer representing the size of the dimension lattice must be provided.  It must be > 0.");
 		}
+		
+		try {
+			String debugOutput = myParser.getValueForOption("debug");
+			if( debugOutput != null ) {
+				// Not a huge fan of the java.util.Logging class - - find
+				// the console handler (or create if needed) and set the
+				// level on it
+			    Logger topLogger = java.util.logging.Logger.getLogger("");
+			    Handler[] allHandlers = topLogger.getHandlers();
+			    Handler consoleHandler=null;
+			    
+			    for( int counter=0; counter < allHandlers.length; counter++ ) {
+			    	 if (allHandlers[counter] instanceof ConsoleHandler) {
+			             //found the console handler
+			             consoleHandler = allHandlers[counter];
+			             break;
+			         }
+			    }
+			    if( consoleHandler == null ) 
+			    	consoleHandler = new ConsoleHandler();
+
+			    consoleHandler.setLevel(Level.FINEST);
+		        topLogger.setLevel( Level.FINEST );
+			}
+		} catch (Exception noe0) { }
 
 		return myParser;
 	}

@@ -7,6 +7,12 @@ import java.util.logging.Logger;
 import edu.gatech.cs6310.project1.HeatingPlateModel;
 import edu.gatech.cs6310.project1.MatrixObserver;
 
+/**
+ * Simple algorithm described above where all computations are performed in 
+ * float precision using a two-dimensional array of floats to represent the plate 
+ * @author Team5
+ *
+ */
 public class HeatingPlatePrimitiveFloatingPoint extends HeatingPlateModel {
 	private final static Logger LOGGER = Logger.getLogger(HeatingPlatePrimitiveFloatingPoint.class.getName()); 
 

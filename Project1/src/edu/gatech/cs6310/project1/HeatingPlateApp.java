@@ -8,6 +8,13 @@ import java.util.logging.Logger;
 import edu.gatech.cs6310.utilities.OptionException;
 import edu.gatech.cs6310.utilities.OptionsParser;
 
+/**
+ * This class will encapsulate any common functionality among all five programs
+ * This will allow maximum 'evolvability' for any additional computations in the future.
+ * 
+ * @author Team5
+ *
+ */
 public abstract class HeatingPlateApp {
 	private final static Logger LOGGER = Logger.getLogger(HeatingPlateApp.class.getName()); 
 

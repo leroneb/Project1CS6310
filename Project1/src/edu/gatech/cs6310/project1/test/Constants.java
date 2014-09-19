@@ -20,6 +20,10 @@ public class Constants {
 	protected static final String[] args100x100T10 = {"-t","10","-b","10","-l","10","-r","10","-d","100"};
 	protected static final String[] args100x100T100 = {"-t","100","-b","100","-l","100","-r","100","-d","100"};
 	
+	protected static final String[] args1000x1000T1 = {"-t","1","-b","1","-l","1","-r","1","-d","1000"};
+	protected static final String[] args1000x1000T10 = {"-t","10","-b","10","-l","10","-r","10","-d","1000"};
+	protected static final String[] args1000x1000T100 = {"-t","100","-b","100","-l","100","-r","100","-d","1000"};
+	
 	protected static final String[] args10x10T1T10 = {"-t","1","-b","1","-l","10","-r","10","-d","10"};
 	protected static final String[] args10x10T10T100 = {"-t","10","-b","10","-l","100","-r","100","-d","10"};
 	protected static final String[] args10x10T50T100 = {"-t","50","-b","50","-l","100","-r","100","-d","10"};

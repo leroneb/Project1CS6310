@@ -102,6 +102,21 @@ public class Benchmark_callgcTrue_15Rounds_5Warmup extends AbstractBenchmark {
 	}
 	
 	@Test
+	public void benchmark_PrimitiveDouble_1000x1000_T100() {
+	    Tpdahp.Demo demo = new Tpdahp.Demo(Constants.args1000x1000T100);
+	}
+	
+	@Test
+	public void benchmark_PrimitiveDouble_1000x1000_T10() {
+	    Tpdahp.Demo demo = new Tpdahp.Demo(Constants.args1000x1000T10);
+	}
+
+	@Test
+	public void benchmark_PrimitiveDouble_1000x1000_T1() {
+	    Tpdahp.Demo demo = new Tpdahp.Demo(Constants.args1000x1000T1);
+	}
+	
+	@Test
 	public void benchmark_PrimitiveDouble_10x10_T1T10() {
 	    Tpdahp.Demo demo = new Tpdahp.Demo(Constants.args10x10T1T10);
 	}
@@ -169,6 +184,21 @@ public class Benchmark_callgcTrue_15Rounds_5Warmup extends AbstractBenchmark {
 	}
 	
 	@Test
+	public void benchmark_PrimitiveFloat_1000x1000_T100() {
+	    Tpfahp.Demo demo = new Tpfahp.Demo(Constants.args1000x1000T100);
+	}
+	
+	@Test
+	public void benchmark_PrimitiveFloat_1000x1000_T10() {
+	    Tpfahp.Demo demo = new Tpfahp.Demo(Constants.args1000x1000T10);
+	}
+
+	@Test
+	public void benchmark_PrimitiveFloat_1000x1000_T1() {
+	    Tpfahp.Demo demo = new Tpfahp.Demo(Constants.args1000x1000T1);
+	}
+	
+	@Test
 	public void benchmark_PrimitiveFloat_10x10_T1T10() {
 	    Tpfahp.Demo demo = new Tpfahp.Demo(Constants.args10x10T1T10);
 	}
@@ -233,6 +263,21 @@ public class Benchmark_callgcTrue_15Rounds_5Warmup extends AbstractBenchmark {
 	@Test
 	public void benchmark_WrappedFloat_100x100_T1() {
 	    Twfahp.Demo demo = new Twfahp.Demo(Constants.args100x100T1);
+	}
+	
+	@Test
+	public void benchmark_WrappedFloat_1000x1000_T100() {
+	    Twfahp.Demo demo = new Twfahp.Demo(Constants.args1000x1000T100);
+	}
+	
+	@Test
+	public void benchmark_WrappedFloat_1000x1000_T10() {
+	    Twfahp.Demo demo = new Twfahp.Demo(Constants.args1000x1000T10);
+	}
+
+	@Test
+	public void benchmark_WrappedFloat_1000x1000_T1() {
+	    Twfahp.Demo demo = new Twfahp.Demo(Constants.args1000x1000T1);
 	}
 	
 	@Test

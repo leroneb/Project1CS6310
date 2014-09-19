@@ -133,6 +133,30 @@ public class Benchmark_Heap extends AbstractBenchmark{
 	 * 
 	 */
 	@Test
+	public void wrappedFloat_1000x1000_T100() {
+		System.out.print("*"+this.getClass().getSimpleName()+".wrappedFloat_1000x1000_T100,");
+		disableOutput();
+		Twfahp.Demo demo = new Twfahp.Demo(Constants.args1000x1000T100);
+		enableOutput();
+	}
+	
+	@Test
+	public void wrappedFloat_1000x1000_T10() {
+		System.out.print("*"+this.getClass().getSimpleName()+".wrappedFloat_1000x1000_T10,");
+		disableOutput();
+		Twfahp.Demo demo = new Twfahp.Demo(Constants.args1000x1000T10);
+		enableOutput();
+	}
+	
+	@Test
+	public void wrappedFloat_1000x1000_T1() {
+		System.out.print("*"+this.getClass().getSimpleName()+".wrappedFloat_1000x1000_T1,");
+		disableOutput();
+		Twfahp.Demo demo = new Twfahp.Demo(Constants.args1000x1000T1);
+		enableOutput();
+	}
+	
+	@Test
 	public void wrappedFloat_100x100_T100() {
 		System.out.print("*"+this.getClass().getSimpleName()+".wrappedFloat_100x100_T100,");
 		disableOutput();
@@ -235,6 +259,30 @@ public class Benchmark_Heap extends AbstractBenchmark{
 	 * 
 	 */
 	@Test
+	public void primitiveFloat_1000x1000_T100() {
+		System.out.print("*"+this.getClass().getSimpleName()+".primitiveFloat_1000x1000_T100,");
+		disableOutput();
+		Tpfahp.Demo demo = new Tpfahp.Demo(Constants.args1000x1000T100);
+		enableOutput();
+	}
+	
+	@Test
+	public void primitiveFloat_1000x1000_T10() {
+		System.out.print("*"+this.getClass().getSimpleName()+".primitiveFloat_1000x1000_T10,");
+		disableOutput();
+		Tpfahp.Demo demo = new Tpfahp.Demo(Constants.args1000x1000T10);
+		enableOutput();
+	}
+	
+	@Test
+	public void primitiveFloat_1000x1000_T1() {
+		System.out.print("*"+this.getClass().getSimpleName()+".primitiveFloat_1000x1000_T1,");
+		disableOutput();
+		Tpfahp.Demo demo = new Tpfahp.Demo(Constants.args1000x1000T1);
+		enableOutput();
+	}
+	
+	@Test
 	public void primitiveFloat_100x100_T100() {
 		System.out.print("*"+this.getClass().getSimpleName()+".primitiveFloat_100x100_T100,");
 		disableOutput();
@@ -336,6 +384,30 @@ public class Benchmark_Heap extends AbstractBenchmark{
 	 * Set of Memory Tests for Primitive Double
 	 * 
 	 */
+	@Test
+	public void primitiveDouble_1000x1000_T100() {
+		System.out.print("*"+this.getClass().getSimpleName()+".primitiveDouble_1000x1000_T100,");
+		disableOutput();
+		Tpdahp.Demo demo = new Tpdahp.Demo(Constants.args1000x1000T100);
+		enableOutput();
+	}
+	
+	@Test
+	public void primitiveDouble_1000x1000_T10() {
+		System.out.print("*"+this.getClass().getSimpleName()+".primitiveDouble_1000x1000_T10,");
+		disableOutput();
+		Tpdahp.Demo demo = new Tpdahp.Demo(Constants.args1000x1000T10);
+		enableOutput();
+	}
+	
+	@Test
+	public void primitiveDouble_1000x1000_T1() {
+		System.out.print("*"+this.getClass().getSimpleName()+".primitiveDouble_1000x1000_T1,");
+		disableOutput();
+		Tpdahp.Demo demo = new Tpdahp.Demo(Constants.args1000x1000T1);
+		enableOutput();
+	}
+	
 	@Test
 	public void primitiveDouble_100x100_T100() {
 		System.out.print("*"+this.getClass().getSimpleName()+".primitiveDouble_100x100_T100,");

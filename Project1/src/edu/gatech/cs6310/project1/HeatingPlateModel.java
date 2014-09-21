@@ -67,7 +67,7 @@ public abstract class HeatingPlateModel implements ObservableMatrixModel {
 		}
 	}
 	
-	public abstract void notifyObservers( );
+	public abstract void notifyObservers( boolean isModelingComplete );
 	
 	public List<MatrixObserver> getObservers( ) {
 		return observers;

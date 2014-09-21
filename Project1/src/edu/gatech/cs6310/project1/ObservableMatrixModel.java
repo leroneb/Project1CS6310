@@ -19,5 +19,5 @@ public interface ObservableMatrixModel {
 	 * Inform all registered observers that a change in the model has occurred
 	 * 
 	 */
-    public void notifyObservers( );
+    public void notifyObservers( boolean modelingComplete );
 }

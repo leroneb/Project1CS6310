@@ -37,6 +37,7 @@ public class HeatingPlatePrimitiveFloatingPoint extends HeatingPlateModel {
 			int leftTemperature, int rightTemperature, int latticeSize ) {
 		System.out
 				.println("Running the model using primitives, floats calculation");
+		boolean isModelingComplete=false;
 		
 		if( latticeSize % 2 == 1 ) {
 			convergencePointX=(latticeSize+1)/2;
@@ -68,7 +69,7 @@ public class HeatingPlatePrimitiveFloatingPoint extends HeatingPlateModel {
 		// I do believe the calculation of the average of all four is done with a double
 		// precision so...  not much different other than the memory utilization.  May need
 		// to make a change here! -ers 9/11/2014
-		while (!isModelingComplete( )) {
+		while (!isModelingComplete) {
 			for (int i = 1; i <= latticeSize; i++) {
 				for (int j = 1; j <= latticeSize; j++) {
 					heatingPlate[i][j] = (float) ((oldPlate[i + 1][j] + oldPlate[i - 1][j]
@@ -77,7 +78,8 @@ public class HeatingPlatePrimitiveFloatingPoint extends HeatingPlateModel {
 			}
 
 			swap(oldPlate, heatingPlate);
-			notifyObservers();
+			isModelingComplete = isModelingComplete( );
+			notifyObservers( isModelingComplete );
 		}
 		
 		LOGGER.finest( "Model took " + modelingCounter + " steps to converge on a temperature" );
@@ -187,7 +189,7 @@ public class HeatingPlatePrimitiveFloatingPoint extends HeatingPlateModel {
 	}
 
 	@Override
-	public void notifyObservers( ) {
+	public void notifyObservers( boolean isModelingComplete ) {
 		// Make sure we have something in our matrix
 		if( heatingPlate.length > 0 ) {
 			double[][] myPlate = new double[heatingPlate.length][heatingPlate[0].length];
@@ -201,7 +203,7 @@ public class HeatingPlatePrimitiveFloatingPoint extends HeatingPlateModel {
 			// reduction in ops
 			List<MatrixObserver> observers = getObservers();
 			for (MatrixObserver currentObserver : observers) {
-				currentObserver.receiveUpdate( myPlate );
+				currentObserver.receiveUpdate( myPlate, modelingCounter, isModelingComplete );
 			}
 		}
 	}

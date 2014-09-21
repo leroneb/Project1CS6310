@@ -8,6 +8,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
@@ -76,6 +77,8 @@ public class HeatingPlateUI extends JPanel implements MatrixObserver {
 	private int cellSize=0;
 	
 	private int matrixRowsColumns=1;
+	/// Default pause time between iterations - can be changed via the UI
+	private int pauseTime=50;
 
 	/**
 	 * Some Strings used in the UI - normally would put in a properties file
@@ -196,7 +199,8 @@ public class HeatingPlateUI extends JPanel implements MatrixObserver {
 	JTextField matrixSize = new JTextField();//createFormatter("#####"));
 	String[] algoOptions =  { PRIMITIVE_DOUBLE, PRIMITIVE_FLOATING_POINT, PRIMITIVE_FLOAT_WRAPPED, OBJECTS };
 	JComboBox algoComboBox = new JComboBox( algoOptions );
-
+	JLabel iterationText = new JLabel( "(STOPPED) Iteration : 0" );
+	
 	public void displayJFrame() {
 		jf.setTitle("Heating Plate demo");
 		
@@ -205,7 +209,7 @@ public class HeatingPlateUI extends JPanel implements MatrixObserver {
 		runPanel.add(runButton);
 		
 		JPanel myPanel = new JPanel( new BorderLayout());
-		JPanel optionsPanel = new JPanel( new GridLayout( 5, 1, 10, 10) );
+		JPanel optionsPanel = new JPanel( new GridLayout( 7, 1, 10, 10) );
 		optionsPanel.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
 		
 		JPanel temperaturePanel = new JPanel( );
@@ -247,7 +251,7 @@ public class HeatingPlateUI extends JPanel implements MatrixObserver {
 		
 		JPanel algoTypePanel = new JPanel( new GridLayout( 2, 1, 10, 10 ));
 		algoTypePanel.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
-		JLabel algoLabel = new JLabel( "Pick an Algorithm" );
+		JLabel algoLabel = new JLabel( "Pick a Data Structure" );
 		algoLabel.setHorizontalTextPosition(SwingConstants.CENTER);
 
 		algoTypePanel.add( algoLabel );
@@ -255,9 +259,22 @@ public class HeatingPlateUI extends JPanel implements MatrixObserver {
 		
 		optionsPanel.add( algoTypePanel );
 		optionsPanel.add( matrixSizePanel );
+
+		optionsPanel.add( iterationText );
+
+		JPanel pausePanel = new JPanel( new GridLayout( 2, 1, 10, 10 ));
+		pausePanel.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
+		JLabel iterationPauseText = new JLabel( "Iteration Pause Time" );
+		String[] timing = {"50", "25", "10", "0"};
+		final JComboBox iterationPauseComboBox = new JComboBox( timing );
 		
+		pausePanel.add( iterationPauseText );
+		pausePanel.add( iterationPauseComboBox );
+		optionsPanel.add( pausePanel );
 		
 		runButton.addActionListener(new ActionListener() {
+			HeatingPlateModel currentModel = null;
+
 			public void actionPerformed(ActionEvent e) {
 				try {
 					Integer.parseInt( matrixSize.getText());
@@ -265,6 +282,11 @@ public class HeatingPlateUI extends JPanel implements MatrixObserver {
 					// Default size if a valid one isn't provided
 					matrixSize.setText( "3" );
 				}
+
+				// Give the GC a chance to clean up the previous model if we 
+				// have already run
+				currentModel=null;
+				runButton.setEnabled(false);
 				// Make sure we start on the appropriate thread so that repaints occur!
 				new Thread() {
 					public void run() {
@@ -272,7 +294,12 @@ public class HeatingPlateUI extends JPanel implements MatrixObserver {
 						// Primitive double is the default
 						HeatingPlateFactory.PROGRAM_TYPES programType = HeatingPlateFactory.PROGRAM_TYPES.PRIMITIVE_DOUBLE;
 						
-						System.out.println( "Selected >> " + algoComboBox.getSelectedItem());
+						LOGGER.fine( "Selected >> " + algoComboBox.getSelectedItem());
+						try {
+							pauseTime= Integer.parseInt( (String)iterationPauseComboBox.getSelectedItem() );
+						} catch( Exception e0 ) {
+							pauseTime=50;
+						}
 						
 						// Move strings into constants
 						if( algoComboBox.getSelectedItem().toString().equals( PRIMITIVE_FLOATING_POINT )) {
@@ -283,7 +310,7 @@ public class HeatingPlateUI extends JPanel implements MatrixObserver {
 							programType = HeatingPlateFactory.PROGRAM_TYPES.OBJECT;
 						} 
 
-						HeatingPlateModel currentModel = HeatingPlateFactory.getInstance( ).getHeatingPlate(programType);
+						currentModel = HeatingPlateFactory.getInstance( ).getHeatingPlate(programType);
 								
 						currentModel.register(HeatingPlateUI.this);
 						
@@ -295,7 +322,7 @@ public class HeatingPlateUI extends JPanel implements MatrixObserver {
 								Integer.parseInt(rightTemperature.getSelectedItem().toString()), 
 								Integer.parseInt(matrixSize.getText()));
 						} catch( HeatingPlateException he0) {
-							System.err.println( he0.getMessage() );
+							LOGGER.log( Level.SEVERE, he0.getMessage() );
 						}
 					}
 				}.start();
@@ -326,16 +353,21 @@ public class HeatingPlateUI extends JPanel implements MatrixObserver {
 	}
 
 	@Override
-	public void receiveUpdate(double[][] myData) {
+	public void receiveUpdate(double[][] myData, int iteration, boolean isModelingComplete ) {
 		currentModelData = myData;
+		if( !isModelingComplete ) {
+			iterationText.setText( "(RUNNING) Iteration : " + iteration );
+		} else {
+			iterationText.setText( "(COMPLETED) Iteration : " + iteration );			
+			runButton.setEnabled(true);
+		}
 		jf.repaint();
+		
 
 		try {
 			// Simple pause
-			Thread.sleep(50);
-		} catch (Exception e0) {
-
-		}
+			Thread.sleep(pauseTime);
+		} catch (Exception e0) {}
 	}
 	
 	public void updatesComplete( ) {

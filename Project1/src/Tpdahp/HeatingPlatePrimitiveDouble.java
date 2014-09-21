@@ -61,10 +61,12 @@ public class HeatingPlatePrimitiveDouble extends HeatingPlateModel {
 		initialize(heatingPlate, topTemperature, bottomTemperature,
 				leftTemperature, rightTemperature);
 
+		boolean isModelingComplete=false;
+		
 		// Loop until exit criteria are met, updating each newPlate cell from
 		// the
 		// average temperatures of the corresponding neighbors in oldPlate
-		while (!isModelingComplete( )) {
+		while (!isModelingComplete ) {
 			for (int i = 1; i <= latticeSize; i++) {
 				for (int j = 1; j <= latticeSize; j++) {
 					heatingPlate[i][j] = (oldPlate[i + 1][j] + oldPlate[i - 1][j]
@@ -74,7 +76,8 @@ public class HeatingPlatePrimitiveDouble extends HeatingPlateModel {
 
 			swap(oldPlate, heatingPlate);
 			
-			notifyObservers();
+			isModelingComplete=isModelingComplete( );
+			notifyObservers( isModelingComplete );
 		}		
 		
 		LOGGER.finest( "Model took " + modelingCounter + " steps to converge on a temperature" );
@@ -114,7 +117,7 @@ public class HeatingPlatePrimitiveDouble extends HeatingPlateModel {
 			return true;
 		}
 		
-		//System.out.println( "modeling counter is " + modelingCounter );
+		LOGGER.fine( "modeling counter is " + modelingCounter );
 	
 		setPreviousTemperatureConvergencePoint(heatingPlate[convergencePointX][convergencePointY]);
 		
@@ -182,12 +185,12 @@ public class HeatingPlatePrimitiveDouble extends HeatingPlateModel {
 	}
 
 	@Override
-	public void notifyObservers( ) {
+	public void notifyObservers( boolean isModelingComplete ) {
 		// May want to consider a flag for checking whether or not to send out updates to the observers - slight
 		// reduction in ops
 		List<MatrixObserver> observers = getObservers();
 		for (MatrixObserver currentObserver : observers) {
-			currentObserver.receiveUpdate( heatingPlate );
+			currentObserver.receiveUpdate( heatingPlate, modelingCounter, isModelingComplete );
 		}
 	}
 }

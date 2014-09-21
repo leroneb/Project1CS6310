@@ -61,10 +61,12 @@ public class HeatingPlateWrappedFloat extends HeatingPlateModel {
 		initialize(heatingPlate, topTemperature, bottomTemperature,
 				leftTemperature, rightTemperature);
 
+		boolean isModelingComplete=false;
+		
 		// Loop until exit criteria are met, updating each newPlate cell from
 		// the
 		// average temperatures of the corresponding neighbors in oldPlate
-		while (!isModelingComplete( )) {
+		while (!isModelingComplete) {
 			for (int i = 1; i <= latticeSize; i++) {
 				for (int j = 1; j <= latticeSize; j++) {
 					heatingPlate[i][j] = (float) ((oldPlate[i + 1][j] + oldPlate[i - 1][j]
@@ -73,7 +75,8 @@ public class HeatingPlateWrappedFloat extends HeatingPlateModel {
 			}
 
 			swap(oldPlate, heatingPlate);
-			notifyObservers();
+			isModelingComplete = isModelingComplete();
+			notifyObservers( isModelingComplete );
 		}
 		
 		LOGGER.finest( "Model took " + modelingCounter + " steps to converge on a temperature" );
@@ -179,7 +182,7 @@ public class HeatingPlateWrappedFloat extends HeatingPlateModel {
 	}
 
 	@Override
-	public void notifyObservers( ) {
+	public void notifyObservers( boolean isModelingComplete ) {
 		// Make sure we have something in our matrix
 		if( heatingPlate.length > 0 ) {
 			double[][] myPlate = new double[heatingPlate.length][heatingPlate[0].length];
@@ -193,7 +196,7 @@ public class HeatingPlateWrappedFloat extends HeatingPlateModel {
 			// reduction in ops
 			List<MatrixObserver> observers = getObservers();
 			for (MatrixObserver currentObserver : observers) {
-				currentObserver.receiveUpdate( myPlate );
+				currentObserver.receiveUpdate( myPlate, modelingCounter, isModelingComplete );
 			}
 		}
 	}

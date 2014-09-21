@@ -40,13 +40,17 @@ public class HeatingPlateMatrixNodes extends HeatingPlateModel {
 		heatingPlate = new HeatingPlate(topTemperature,
 				bottomTemperature, leftTemperature, rightTemperature,
 				latticeSize);
-		
+
+		LOGGER.info( "Finished setting up heating plates" );
+		boolean isModelingComplete=false;
+
 		// Loop until exit criteria are met, updating each newPlate cell from
 		// the
 		// average temperatures of the corresponding neighbors in oldPlate
-		while (!isModelingComplete(oldHeatingPlate, heatingPlate)) {
+		while ( !isModelingComplete ) {
+			LOGGER.info( "Entering swap" );
 			HeatingPlate.swap(oldHeatingPlate, heatingPlate);
-
+			LOGGER.info( "Swap finished" );
 			LatticePoint currentLatticePoint = heatingPlate.getHeadLatticePoint();
 
 			while (currentLatticePoint != null) {
@@ -68,7 +72,8 @@ public class HeatingPlateMatrixNodes extends HeatingPlateModel {
 				}
 			}
 			
-			notifyObservers();
+			isModelingComplete=isModelingComplete(oldHeatingPlate, heatingPlate);
+			notifyObservers( isModelingComplete );
 		}
 
 		LOGGER.finest( "Model took " + modelingCounter + " steps to converge on a temperature" );
@@ -99,7 +104,8 @@ public class HeatingPlateMatrixNodes extends HeatingPlateModel {
 	public boolean isModelingComplete(HeatingPlate oldPlate,
 			HeatingPlate currentPlate) {
 		modelingCounter++;
-		
+		System.out.println( "Checking..." );
+
 		// Also note the comparison here to the size of the plate. The inner
 		// temperature will remain 0
 		// until the model has progressed (plate.length) steps. Granted, could
@@ -111,9 +117,10 @@ public class HeatingPlateMatrixNodes extends HeatingPlateModel {
 				.getCenterPoint().y] - oldPlate.getTemperatures()[oldPlate
 				.getCenterPoint().x][oldPlate.getCenterPoint().y]) / MAX_TEMPERATURE) < MAX_DIFF_RATIO
 				&& modelingCounter > oldPlate.getLatticeSize()) {
+			System.out.println( "Finished" );
 			return true;
 		}
-
+		
 		return false;
 	}
 
@@ -127,13 +134,13 @@ public class HeatingPlateMatrixNodes extends HeatingPlateModel {
 	}
 
 	@Override
-	public void notifyObservers() {
+	public void notifyObservers( boolean isModelingComplete ) {
 		// May want to consider a flag for checking whether or not to send out
 		// updates to the observers - slight
 		// reduction in ops
 		List<MatrixObserver> observers = getObservers();
 		for (MatrixObserver currentObserver : observers) {
-			currentObserver.receiveUpdate(heatingPlate.getTemperatures());
+			currentObserver.receiveUpdate(heatingPlate.getTemperatures(), modelingCounter, isModelingComplete );
 		}
 	}
 }

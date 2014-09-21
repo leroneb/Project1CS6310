@@ -5,5 +5,5 @@ package edu.gatech.cs6310.project1;
  *
  */
 public interface MatrixObserver {
-	public void receiveUpdate( double[][] myData );
+	public void receiveUpdate( double[][] myData, int iterationCount, boolean isModelingComplete );
 }
